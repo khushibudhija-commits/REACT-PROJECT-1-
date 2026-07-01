@@ -1,123 +1,136 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
-import { Sun, Moon, Box, UsersRound, Info, Clock8, DollarSign, Search } from "lucide-react";
+import {
+  Sun,
+  Moon,
+  Box,
+  UsersRound,
+  Info,
+  Clock8,
+  DollarSign,
+  Bell,
+} from "lucide-react";
+
+const cards = [
+  {
+    icon: <Box />,
+    h3: "Total Products",
+    h2: 6,
+  },
+
+  {
+    icon: <UsersRound />,
+    h3: "Total Stock Qty",
+    h2: 267,
+  },
+
+  {
+    icon: <Info />,
+    h3: "Stock Alerts",
+    h2: 3,
+    icon2: "Action Needed",
+  },
+
+  {
+    icon: <Clock8 />,
+    h3: "Unread Notifications",
+    h2: 0,
+  },
+
+  {
+    icon: <DollarSign />,
+    h3: "Total Sales",
+    h2: 4221.14,
+  },
+];
 const App = () => {
   const [theme, setTheme] = useState("light");
-
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
-
-
-  const [count, setCount] = useState(0);
-  const countNumbers = () => {
-    setCount(count + 1);
-  };
-
-
-
-  const cards = [
-    {
-      icon: <Box />,
-      h3: "Total Products",
-      h2: 6,
-    },
-    {
-      icon: <UsersRound />,
-      h3: "Total Stock Qty",
-      h2: 267,
-    },
-    {
-      icon: <Info />,
-      h3: "Stock Alerts",
-      h2: 3,
-      icon2: "action needed",
-    },
-    {
-      icon: <Clock8 />,
-      h3: "Unread Notifications",
-      h2: 0,
-    },
-    {
-      icon: <DollarSign />,
-      h3: "Total Sales",
-      h2: 4221.14,
-    },
-  ];
-
+  const [filteredCards, setFilteredCards] = useState(cards);
   return (
-    <>
-      <div className={["color", theme].join(" ")}>
-
-
-        <header className="headerbar">
-
-
-          <div className="searchbar">
-            <input
-              type="text"
-              id="searchbar"
-              placeholder="  Search or type command"
-            ></input></div>
-
-          <div className="loginsection">
-
-
-            <button className="icon" onClick={toggleTheme}>
-              {theme === "light" ? (
-                <Sun color="black" />
-              ) : (
-                <Moon color="black" />
-              )}
-            </button>
-
-
-
-            <button type="button" onClick={countNumbers} className="icon">
-              🔔</button>
-            <div className="icon"></div>
-            <div className="dropdown">
-              <select id="myDropdown" className="dropdown1">
-                <option value="">System Admin</option>
-                <option value="">User</option>
-              </select>
-            </div>
-          </div>
-        </header>
-
-
-
-        <div className="headandbutton">
-          <div className="heading">
-            <h1>Welcome back, System Admin</h1>
-            <p>Here is a summary of your operations today.</p>
-          </div>
-          <div className="button">
-            <button className="new">New Sales Order </button>
-          </div>
+    <div
+      className={` duration-500 ${theme === "light" ? "bg-white text-black" : "bg-gray-900 text-white"
+        }`}
+    >
+      <header className="flex justify-between items-center p-3  z-10">
+        <div className="bg-gray-100 rounded-xl w-[30vw]">
+          <input
+            type="text"
+            placeholder="Search or type command"
+            className="w-full bg-transparent outline-none text-lg p-3 text-black"
+          />
         </div>
 
+        <div className="flex items-center gap-3">
+          <button
+            onClick={toggleTheme}
+            className="w-9 h-9  border rounded-full flex justify-center items-center"
+          >
+            {theme === "light" ? <Sun color="black" /> : <Moon color="white" />}
+          </button>
 
+          <button className="w-9 h-9 border rounded-full  flex justify-center items-center">
+            <Bell />
+          </button>
 
+          <div className="w-9 h-9  border rounded-full "></div>
 
-        <div className="container">
-          <div className="cards">
-            {cards.map((item) => (
-              <div className="card">
-                <h1>{item.icon}</h1>
-                <p>{item.h3}</p>
-                <h1>{item.h2}</h1>
-                {item.icon2 && <div className="btn"><button className="action">{item.icon2}
-                </button></div>}
-              </div>
-            ))}
-          </div>{" "}
-        </div>{" "}
+          <select
+            className={`text-lg font-semibold bg-transparent outline-none ${theme === "light" ? "text-black" : "text-white"
+              }`}
+          >
+            <option>System Admin</option>
+
+            <option>User</option>
+          </select>
+        </div>
+      </header>
+
+      <div className="grid grid-cols-2 pt-24 px-12">
+        <div>
+          <h1 className="text-4xl font-bold">Welcome back, System Admin</h1>
+
+          <p className="mt-2">Here is a summary of your operations today.</p>
+        </div>
+
+        <div className="flex justify-end items-start">
+          <button className="bg-blue-600 text-white px-5 py-3 rounded-lg">
+            New Sales Order
+          </button>
+        </div>
       </div>
-    </>
+
+      <div className="p-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          {filteredCards.map((item, index) => (
+            <div
+              key={index}
+              className={`border rounded-3xl p-5 h-52 ${theme === "light"
+                ? "bg-white border-gray-400"
+                : "bg-gray-800 border-gray-700"
+                }`}
+            >
+              <div className="text-3xl">{item.icon}</div>
+
+              <p className="mt-4">{item.h3}</p>
+
+              <h2 className="text-3xl font-bold mt-2">{item.h2}</h2>
+
+              {item.icon2 && (
+                <div className="flex justify-end mt-6">
+                  <button className="bg-blue-700 text-white px-3 py-2 rounded">
+                    {item.icon2}
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
-
 export default App;
