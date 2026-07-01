@@ -1,4 +1,7 @@
-.headerbar {
+
+
+@import "tailwindcss"; 
+/* .headerbar {
   display: flex;
   flex-direction: row;
   gap: 40vw;
@@ -146,4 +149,4 @@
   border: none;
   font-size: 20px;
   font-weight: 600;
-}
+} */
